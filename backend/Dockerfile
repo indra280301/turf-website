@@ -1,6 +1,8 @@
 # ---- Build Stage ----
 FROM node:18-alpine AS builder
 
+RUN apk add --no-cache openssl
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -18,6 +20,8 @@ RUN npx tsc --outDir dist
 # ---- Production Stage ----
 FROM node:18-alpine
 
+RUN apk add --no-cache openssl
+
 WORKDIR /app
 
 COPY --from=builder /app/dist ./dist
@@ -30,5 +34,5 @@ RUN mkdir -p /app/uploads/gallery
 
 EXPOSE 5005
 
-# Run migrations then start server
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
+# Push schema to DB (creates tables if not exist) then start server
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && node dist/index.js"]

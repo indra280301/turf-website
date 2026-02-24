@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # -------------------------
+  # MySQL DATABASE
+  # -------------------------
+  db:
+    image: mysql:8.0
+    container_name: dhaval_turf_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_DATABASE: dhaval_mart_turf
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-padmin123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------
+  # BACKEND SERVICE (Node.js)
+  # -------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dhaval_turf_backend
+    restart: always
+    env_file:
+      - .env.production
+    ports:
+      - "5005:5005"
+    volumes:
+      - backend_uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # -------------------------
+  # FRONTEND SERVICE (React/Vite)
+  # -------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: "${VITE_API_URL:-http://129.154.252.11:5005/api}"
+    container_name: dhaval_turf_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
+  backend_uploads:

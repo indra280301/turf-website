@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  WATCHMAN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum Sport {
+  FOOTBALL
+  CRICKET
+}
+
+enum PaymentMode {
+  ONLINE
+  UPI
+  CARD
+  COD
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+}
+
+enum DiscountType {
+  FLAT
+  PERCENTAGE
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  role      Role       @default(USER)
+  status    UserStatus @default(ACTIVE)
+  name      String
+  phone     String     @unique
+  email     String?  @unique
+  isEmailVerified Boolean @default(false)
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  bookings  Booking[]
+  reviews   Review[]
+}
+
+model Booking {
+  id            Int           @id @default(autoincrement())
+  userId        Int?
+  user          User?         @relation(fields: [userId], references: [id])
+  guestName     String?
+  guestPhone    String?
+  guestEmail    String?
+  date          DateTime      @db.Date
+  startTime     String
+  endTime       String
+  sport         Sport
+  amount        Float
+  status        BookingStatus @default(PENDING)
+  paymentMode   PaymentMode   @default(ONLINE)
+  paymentId     String?
+  isRefunded    Boolean       @default(false)
+  isArrived     Boolean       @default(false)
+  couponId      Int?
+  coupon        Coupon?       @relation(fields: [couponId], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Coupon {
+  id            Int          @id @default(autoincrement())
+  code          String       @unique
+  type          DiscountType
+  value         Float
+  maxDiscount   Float?
+  expiryDate    DateTime
+  totalUsage    Int          @default(0)
+  maxUsage      Int?
+  isActive      Boolean      @default(true)
+  applicableSport Sport?
+  validDate     DateTime?    @db.Date
+  validSlots    String?      @db.Text
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  bookings      Booking[]
+}
+
+model Tournament {
+  id              Int      @id @default(autoincrement())
+  name            String
+  date            DateTime @db.Date
+  description     String   @db.Text
+  registrationFee Float
+  status          String   @default("UPCOMING") // UPCOMING, ONGOING, COMPLETED
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model GalleryCategory {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  galleries Gallery[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Gallery {
+  id         Int             @id @default(autoincrement())
+  categoryId Int
+  category   GalleryCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  url        String
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+}
+
+model Setting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int
+  comment   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

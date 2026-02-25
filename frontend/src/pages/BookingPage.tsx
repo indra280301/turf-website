@@ -362,7 +362,7 @@ export default function BookingPage() {
                     <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
                         <CalendarIcon className="w-4 h-4" /> Select a reservation date
                     </h3>
-                    <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide snap-x">
+                    <div className="flex gap-3 overflow-x-auto pb-4 custom-scrollbar-horizontal snap-x">
                         {dates.map((d, i) => {
                             const isSelected = format(date, 'yyyy-MM-dd') === format(d, 'yyyy-MM-dd');
                             return (

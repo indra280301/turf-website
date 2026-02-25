@@ -57,7 +57,7 @@ export default function HomePage() {
                     <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-transparent to-transparent" />
                 </div>
 
-                <div className="container mx-auto px-4 z-10 w-full">
+                <div className="container mx-auto px-4 z-10 w-full pt-24 md:pt-32">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}

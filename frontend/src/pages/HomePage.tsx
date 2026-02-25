@@ -64,9 +64,9 @@ export default function HomePage() {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="max-w-3xl space-y-6"
                     >
-                        <div className="inline-flex items-center gap-2 bg-black/40 border border-primary/20 px-5 py-2.5 rounded-full backdrop-blur-xl">
-                            <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_12px_var(--color-primary)]" />
-                            <span className="text-[11px] font-black uppercase tracking-[0.25em] text-white">
+                        <div className="inline-flex items-center gap-2 bg-black/40 border border-primary/20 px-5 py-2.5 rounded-full backdrop-blur-xl max-w-full">
+                            <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_12px_var(--color-primary)] flex-shrink-0" />
+                            <span className="text-[11px] font-black uppercase tracking-[0.25em] text-white whitespace-nowrap overflow-hidden text-ellipsis">
                                 Open {turfInfo.openTime} - {turfInfo.closeTime} • Chiplun
                             </span>
                         </div>

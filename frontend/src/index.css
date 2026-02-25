@@ -219,21 +219,43 @@
   border-radius: 10px;
 }
 
+/* Mobile default: hide scrollbar for touch users */
+.custom-scrollbar-horizontal {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
 .custom-scrollbar-horizontal::-webkit-scrollbar {
-  height: 6px;
+  display: none;
+  /* Chrome, Safari, Opera */
 }
 
-.custom-scrollbar-horizontal::-webkit-scrollbar-track {
-  background: transparent;
-}
+/* Desktop default: show beautiful dark scrollbar for mouse users */
+@media (min-width: 768px) {
+  .custom-scrollbar-horizontal {
+    scrollbar-width: auto;
+  }
 
-.custom-scrollbar-horizontal::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-}
+  .custom-scrollbar-horizontal::-webkit-scrollbar {
+    display: block;
+    height: 8px;
+  }
 
-.custom-scrollbar-horizontal::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  .custom-scrollbar-horizontal::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar-horizontal::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar-horizontal::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {

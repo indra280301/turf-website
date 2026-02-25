@@ -46,7 +46,7 @@ export default function HomePage() {
     return (
         <div className="w-full bg-[#111111] text-foreground font-sans min-h-screen pb-20">
             {/* Hero Section */}
-            <section className="relative h-[85vh] flex flex-col justify-end pb-24 overflow-hidden rounded-b-[40px] border-b border-border/20 shadow-[-10px_20px_50px_rgba(0,0,0,0.5)]">
+            <section className="relative min-h-[85vh] flex flex-col justify-center pt-32 pb-24 overflow-hidden rounded-b-[40px] border-b border-border/20 shadow-[-10px_20px_50px_rgba(0,0,0,0.5)]">
                 <div className="absolute inset-0 z-0 bg-black">
                     <img
                         src="/images/IMG_6744.jpg"
@@ -57,7 +57,7 @@ export default function HomePage() {
                     <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-transparent to-transparent" />
                 </div>
 
-                <div className="container mx-auto px-4 z-10 w-full pt-24 md:pt-32">
+                <div className="container mx-auto px-4 z-10 w-full">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
